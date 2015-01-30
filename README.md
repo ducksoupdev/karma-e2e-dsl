@@ -23,6 +23,10 @@ To use either [chai](http://chaijs.com) (expect, assert or should), [expect.js](
 
 `npm install karma-e2e-dsl --save-dev`
 
+or
+
+`bower install karma-e2e-dsl --save-dev`
+
 ## How to use
 
 ### Karma config for vanilla JS
@@ -40,8 +44,8 @@ module.exports = function(config) {
       './bower_components/underscore/underscore.js',
 
       /* add your chosen assertion library - jasmine style expectations are provided */
-      './bower_components/karma-e2e-dsl/src/expectations.js',
-      './bower_components/karma-e2e-dsl/src/karma-e2e-dsl.js',
+      './node_modules/karma-e2e-dsl/src/expectations.js',
+      './node_modules/karma-e2e-dsl/src/karma-e2e-dsl.js',
 
       /* list all your test files */
       './test/e2e/test.spec.js'
@@ -75,17 +79,17 @@ module.exports = function(config) {
       { pattern: './bower_components/underscore/underscore.js' included: false },
 
       /* add your chosen assertion library - AMD stubs are provided for chai and the jasmine style expectations */
-      { pattern: './bower_components/karma-e2e-dsl/src/amd/assertions/expectations.js' included: false },
+      { pattern: './node_modules/karma-e2e-dsl/src/amd/assertions/expectations.js' included: false },
 
       /* list all the AMD modules required to run tests */
-      { pattern: './bower_components/karma-e2e-dsl/src/amd/browser.js' included: false },
-      { pattern: './bower_components/karma-e2e-dsl/src/amd/deferred.js' included: false },
-      { pattern: './bower_components/karma-e2e-dsl/src/amd/drop-down-list.js' included: false },
-      { pattern: './bower_components/karma-e2e-dsl/src/amd/dsl.js' included: false },
-      { pattern: './bower_components/karma-e2e-dsl/src/amd/element.js' included: false },
-      { pattern: './bower_components/karma-e2e-dsl/src/amd/input.js' included: false },
-      { pattern: './bower_components/karma-e2e-dsl/src/amd/navigate-to.js' included: false },
-      { pattern: './bower_components/karma-e2e-dsl/src/amd/run.js' included: false },
+      { pattern: './node_modules/karma-e2e-dsl/src/amd/browser.js' included: false },
+      { pattern: './node_modules/karma-e2e-dsl/src/amd/deferred.js' included: false },
+      { pattern: './node_modules/karma-e2e-dsl/src/amd/drop-down-list.js' included: false },
+      { pattern: './node_modules/karma-e2e-dsl/src/amd/dsl.js' included: false },
+      { pattern: './node_modules/karma-e2e-dsl/src/amd/element.js' included: false },
+      { pattern: './node_modules/karma-e2e-dsl/src/amd/input.js' included: false },
+      { pattern: './node_modules/karma-e2e-dsl/src/amd/navigate-to.js' included: false },
+      { pattern: './node_modules/karma-e2e-dsl/src/amd/run.js' included: false },
 
       /* list all your AMD test files */
       { pattern: './test/amd/e2e/test.spec.js' included: false },
