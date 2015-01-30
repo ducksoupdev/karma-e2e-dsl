@@ -1,9 +1,11 @@
-# karma-e2e-dsl
+# karma-e2e-dsl - vanilla JS and RequireJS/AMD
 
 As you know, the karma test runner can't run E2E test cases for web apps which aren't based on AngularJS.
 If your site is using AngularJS, just ignore this project and choose `ng-scenario`.
 
 If however, you are looking to end-to-end test your web app and aren't using AngularJS, then this could be the solution for you!
+
+Both vanilla and RequireJS/AMD implementations are supported. Full examples of both are provided.
 
 ## Requirements
 
@@ -12,7 +14,7 @@ If however, you are looking to end-to-end test your web app and aren't using Ang
 
 ## Assertions
 
-Jasmine style assertions are provided ([see Assertions below](#assertions)) in the ./expectations.js file. To use, simply
+Jasmine style assertions are provided ([see Assertions below](#assertions)) in the [./src/expectations.js)](./src/expectations.js) file. To use, simply
 include the expectations.js file in your karma config (see example config below). Example config and spec files are provided.
 
 To use either [chai](http://chaijs.com) (expect, assert or should), [expect.js](https://github.com/Automattic/expect.js) or [should.js](https://github.com/shouldjs/should.js), simply include them in your karma config (example config and spec files are provided).
@@ -23,6 +25,8 @@ To use either [chai](http://chaijs.com) (expect, assert or should), [expect.js](
 
 ## How to use
 
+### Karma config for vanilla JS
+
 Choose `Mocha` as your testing framework.
 
 ```js
@@ -32,11 +36,15 @@ module.exports = function(config) {
     frameworks: ['mocha'],
     // list of files / patterns to load in the browser
     files: [
-      './bower_components/jquery/dist/jquery.min.js',
-      './bower_components/underscore/underscore-min.js',
-      './expectations.js',
-      './karma-e2e-dsl.js',
-      './test.spec.js',
+      './bower_components/jquery/dist/jquery.js',
+      './bower_components/underscore/underscore.js',
+
+      /* add your chosen assertion library - jasmine style expectations are provided */
+      './bower_components/karma-e2e-dsl/src/expectations.js',
+      './bower_components/karma-e2e-dsl/src/karma-e2e-dsl.js',
+
+      /* list all your test files */
+      './test/e2e/test.spec.js'
     ],
     exclude: [
     ],
@@ -46,6 +54,80 @@ module.exports = function(config) {
     /* the rest of configurations */
   });
 };
+```
+
+### Karma config for RequireJS/AMD
+
+Choose `Mocha` as your testing framework and `RequireJS`
+
+```js
+module.exports = function(config) {
+  config.set({
+    basePath: './',
+    frameworks: ['mocha', 'requirejs'],
+    // list of files / patterns to load in the browser
+    files: [
+      /* this is the only file needed by RequireJS - it loads the individual modules through this */
+      './test-main.js',
+
+      /* this is a list of any libraries needed by the tests */
+      { pattern: './bower_components/jquery/dist/jquery.js', included: false },
+      { pattern: './bower_components/underscore/underscore.js' included: false },
+
+      /* add your chosen assertion library - AMD stubs are provided for chai and the jasmine style expectations */
+      { pattern: './bower_components/karma-e2e-dsl/src/amd/assertions/expectations.js' included: false },
+
+      /* list all the AMD modules required to run tests */
+      { pattern: './bower_components/karma-e2e-dsl/src/amd/browser.js' included: false },
+      { pattern: './bower_components/karma-e2e-dsl/src/amd/deferred.js' included: false },
+      { pattern: './bower_components/karma-e2e-dsl/src/amd/drop-down-list.js' included: false },
+      { pattern: './bower_components/karma-e2e-dsl/src/amd/dsl.js' included: false },
+      { pattern: './bower_components/karma-e2e-dsl/src/amd/element.js' included: false },
+      { pattern: './bower_components/karma-e2e-dsl/src/amd/input.js' included: false },
+      { pattern: './bower_components/karma-e2e-dsl/src/amd/navigate-to.js' included: false },
+      { pattern: './bower_components/karma-e2e-dsl/src/amd/run.js' included: false },
+
+      /* list all your AMD test files */
+      { pattern: './test/amd/e2e/test.spec.js' included: false },
+    ],
+    exclude: [
+    ],
+    proxies: {
+      '/app/': 'http://localhost:8000/'
+    },
+    /* the rest of configurations */
+  });
+};
+```
+
+### test-main.js - the RequireJS/AMD bootstrapper (only required for RequireJS/AMD)
+
+```js
+requirejs.config({
+  // Karma serves files under /base, which is the basePath from your config file
+  baseUrl: '/base/src/amd',
+
+  // paths relative to the above baseUrl
+  paths: {
+    'jquery': '../../bower_components/jquery/dist/jquery',
+    'underscore': '../../bower_components/underscore/underscore'
+  },
+
+  shim: {
+    'jquery': {
+      'exports': 'jQuery'
+    },
+    'underscore': {
+      'exports': '_'
+    }
+  },
+
+  // load all test files
+  deps: ['../test/amd/e2e/test.spec'],
+
+  // we have to kickoff mocha, as it is asynchronous
+  callback: window.__karma__.start
+});
 ```
 
 ## DSL

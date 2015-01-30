@@ -24,10 +24,6 @@ module.exports = function (grunt) {
                 configFile: 'config/default/karma.conf.js',
                 singleRun: true
             },
-            e2eShould: {
-                configFile: 'config/chai/karma.should.conf.js',
-                singleRun: true
-            },
             e2eShouldJs: {
                 configFile: 'config/shouldjs/karma.shouldjs.conf.js',
                 singleRun: true
@@ -43,6 +39,30 @@ module.exports = function (grunt) {
             e2eExpectJs: {
                 configFile: 'config/expectjs/karma.expectjs.conf.js',
                 singleRun: true
+            },
+            e2eAmd: {
+                configFile: 'config/amd/default/karma.conf.js',
+                singleRun: true
+            },
+            e2eAmdShould: {
+                configFile: 'config/amd/chai/karma.should.conf.js',
+                singleRun: true
+            },
+            e2eAmdShouldJs: {
+                configFile: 'config/amd/shouldjs/karma.shouldjs.conf.js',
+                singleRun: true
+            },
+            e2eAmdAssert: {
+                configFile: 'config/amd/chai/karma.assert.conf.js',
+                singleRun: true
+            },
+            e2eAmdExpect: {
+                configFile: 'config/amd/chai/karma.expect.conf.js',
+                singleRun: true
+            },
+            e2eAmdExpectJs: {
+                configFile: 'config/amd/expectjs/karma.expectjs.conf.js',
+                singleRun: true
             }
         },
         uglify: {
@@ -53,12 +73,12 @@ module.exports = function (grunt) {
             },
             build: {
                 files: {
-                    'dist/karma-e2e-dsl.min.js': ['./karma-e2e-dsl.js']
+                    'dist/karma-e2e-dsl.min.js': ['./src/karma-e2e-dsl.js']
                 }
             },
-            amd: {
+            assertions: {
                 files: {
-                    'dist/karma-e2e-dsl-amd.min.js': ['./src/*.js', '!./src/karma-e2e-dsl.js']
+                    'dist/expectations.min.js': ['./src/expectations.js']
                 }
             }
         }
@@ -70,12 +90,35 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-karma');
 
-    // Default task.
+    // Test tasks.
     grunt.registerTask('test', ['connect', 'uglify', 'karma:e2e']);
-    grunt.registerTask('test:should', ['connect', 'uglify', 'karma:e2eShould']);
     grunt.registerTask('test:shouldjs', ['connect', 'uglify', 'karma:e2eShouldJs']);
     grunt.registerTask('test:assert', ['connect', 'uglify', 'karma:e2eAssert']);
     grunt.registerTask('test:expect', ['connect', 'uglify', 'karma:e2eExpect']);
     grunt.registerTask('test:expectjs', ['connect', 'uglify', 'karma:e2eExpectJs']);
+
+    // RequireJS/AMD test tasks
+    grunt.registerTask('test:amd', ['connect', 'uglify', 'karma:e2eAmd']);
+    grunt.registerTask('test:amd:should', ['connect', 'uglify', 'karma:e2eAmdShould']);
+    grunt.registerTask('test:amd:shouldjs', ['connect', 'uglify', 'karma:e2eAmdShouldJs']);
+    grunt.registerTask('test:amd:assert', ['connect', 'uglify', 'karma:e2eAmdAssert']);
+    grunt.registerTask('test:amd:expect', ['connect', 'uglify', 'karma:e2eAmdExpect']);
+    grunt.registerTask('test:amd:expectjs', ['connect', 'uglify', 'karma:e2eAmdExpectJs']);
+
+    grunt.registerTask('default', function() {
+        console.log('Task list:\n');
+        console.log(' * test');
+        console.log(' * test:shouldjs');
+        console.log(' * test:assert');
+        console.log(' * test:expect');
+        console.log(' * test:expectjs');
+        console.log('\nRequireJS/AMD:\n');
+        console.log(' * test:amd');
+        console.log(' * test:amd:should');
+        console.log(' * test:amd:shouldjs');
+        console.log(' * test:amd:assert');
+        console.log(' * test:amd:expect');
+        console.log(' * test:amd:expectjs');
+    });
 
 };

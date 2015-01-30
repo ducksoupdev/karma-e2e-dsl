@@ -1,4 +1,4 @@
-define(['browser', 'input', 'element', 'drop-down-list', 'dsl', 'should'], function (browser, input, element, dropdownlist, dsl, should) {
+define(['browser', 'input', 'element', 'drop-down-list', 'dsl', 'assertions/expectations'], function (browser, input, element, dropdownlist, dsl, expect) {
 
     describe('karma e2e dsl', function () {
 
@@ -16,9 +16,8 @@ define(['browser', 'input', 'element', 'drop-down-list', 'dsl', 'should'], funct
                 // browser.pause();
                 input(selector).val('');
 
-                input(selector).val(function (val) {
-                    val.should.equal('');
-                });
+                // jasmine style expect
+                expect(input(selector).val()).toEqual('');
             }));
 
         });
@@ -26,9 +25,8 @@ define(['browser', 'input', 'element', 'drop-down-list', 'dsl', 'should'], funct
         describe('#attr', function () {
 
             it('could get attribute value of element', dsl(function () {
-                input('input[name="textbox"]').attr('name', function (name) {
-                    name.should.equal('textbox');
-                });
+                // jasmine style expect
+                expect(input('input[name="textbox"]').attr('name')).toBe('textbox');
             }));
 
         });
@@ -36,9 +34,8 @@ define(['browser', 'input', 'element', 'drop-down-list', 'dsl', 'should'], funct
         describe('#css', function () {
 
             it('could return css value of element as per css property', dsl(function () {
-                input('input[name="textbox"]').css('font-family', function (font) {
-                    font.should.equal('verdana');
-                });
+                // jasmine style expect
+                expect(input('input[name="textbox"]').css('font-family')).toEqual('verdana');
             }));
 
         });
@@ -46,9 +43,8 @@ define(['browser', 'input', 'element', 'drop-down-list', 'dsl', 'should'], funct
         describe('#html', function () {
 
             it('could return inner html of element', dsl(function () {
-                element('form').html(function (html) {
-                    html.should.match(/<legend>Form Elements Test<\/legend>/m);
-                });
+                // jasmine style expect
+                expect(element('form').html()).toContain('<legend>Form Elements Test</legend>');
             }));
 
         });
@@ -60,7 +56,8 @@ define(['browser', 'input', 'element', 'drop-down-list', 'dsl', 'should'], funct
             it('could delay the dsl', dsl(function () {
                 browser.delay(function () {
                     input(selector).val(function (val) {
-                        val.should.equal('hello world');
+                        // jasmine style expect
+                        expect(val).toEqual('hello world');
                     });
                 }, 20);
 
@@ -70,7 +67,8 @@ define(['browser', 'input', 'element', 'drop-down-list', 'dsl', 'should'], funct
 
                 browser.delay(function () {
                     input(selector).val(function (val) {
-                        val.should.equal('hello world!');
+                        // jasmine style expect
+                        expect(val).toEqual('hello world!');
                     });
                 }, 40);
 
@@ -90,13 +88,15 @@ define(['browser', 'input', 'element', 'drop-down-list', 'dsl', 'should'], funct
 
                 browser.delay(function () {
                     input(selector).val(function (val) {
-                        val.should.equal('hello world!');
+                        // jasmine style expect
+                        expect(val).toEqual('hello world!');
                     });
                 }, 25);
 
                 browser.delay(function () {
                     input(selector).val(function (val) {
-                        val.should.equal('hello world!!');
+                        // jasmine style expect
+                        expect(val).toEqual('hello world!!');
                     });
                 }, 40);
 
@@ -114,7 +114,8 @@ define(['browser', 'input', 'element', 'drop-down-list', 'dsl', 'should'], funct
                 browser.sleep(200);
                 input(selector).enter('hello world!');
                 input(selector).val(function (val) {
-                    val.should.equal('hello world!');
+                    // jasmine style expect
+                    expect(val).toEqual('hello world!');
                 });
             }));
 
@@ -127,7 +128,8 @@ define(['browser', 'input', 'element', 'drop-down-list', 'dsl', 'should'], funct
             it('could enter text', dsl(function () {
                 input(selector).enter('hello world!');
                 input(selector).val(function (val) {
-                    val.should.equal('hello world!');
+                    // jasmine style expect
+                    expect(val).toEqual('hello world!');
                 });
             }));
         });
@@ -139,7 +141,8 @@ define(['browser', 'input', 'element', 'drop-down-list', 'dsl', 'should'], funct
             it('could be checked', dsl(function () {
                 input(selector).check();
                 input(selector).isChecked(function (isChecked) {
-                    isChecked.should.be.true;
+                    // jasmine style expect
+                    expect(isChecked).toBeTruthy();
                 });
             }));
 
@@ -147,7 +150,8 @@ define(['browser', 'input', 'element', 'drop-down-list', 'dsl', 'should'], funct
                 input(selector).check();
                 input(selector).uncheck();
                 input(selector).isChecked(function (isChecked) {
-                    isChecked.should.be.false;
+                    // jasmine style expect
+                    expect(isChecked).toBeFalsy();
                 });
             }));
 
@@ -162,7 +166,8 @@ define(['browser', 'input', 'element', 'drop-down-list', 'dsl', 'should'], funct
             it('could be selected', dsl(function () {
                 input(selectorA).select();
                 input(selectorA).isSelected(function (selected) {
-                    selected.should.be.true;
+                    // jasmine style expect
+                    expect(selected).toBeTruthy();
                 });
             }));
 
@@ -170,14 +175,16 @@ define(['browser', 'input', 'element', 'drop-down-list', 'dsl', 'should'], funct
                 input(selectorA).select();
                 input(selectorB).select();
                 input(selectorA).isSelected(function (selected) {
-                    selected.should.be.false;
+                    // jasmine style expect
+                    expect(selected).toBeFalsy();
                 });
             }));
 
             it('could be selected by given value', dsl(function () {
                 input(selector).select("1");
                 input(selectorA).isSelected(function (selected) {
-                    selected.should.be.true;
+                    // jasmine style expect
+                    expect(selected).toBeTruthy();
                 });
             }));
 
@@ -188,7 +195,8 @@ define(['browser', 'input', 'element', 'drop-down-list', 'dsl', 'should'], funct
             it('could be clicked', dsl(function () {
                 input('#btn').click();
                 element('body').text(function (text) {
-                    text.should.match(/button clicked!/m);
+                    // jasmine style expect
+                    expect(text).toEqual('button clicked!!');
                 });
             }));
 
@@ -198,7 +206,8 @@ define(['browser', 'input', 'element', 'drop-down-list', 'dsl', 'should'], funct
 
             it('should not be enabled', dsl(function () {
                 input('input#disabled-btn[name="button"]').isDisabled(function (disabled) {
-                    disabled.should.be.true;
+                    // jasmine style expect
+                    expect(disabled).toBeTruthy();
                 });
             }));
         });
@@ -209,9 +218,9 @@ define(['browser', 'input', 'element', 'drop-down-list', 'dsl', 'should'], funct
                 input('[type="submit"]').click();
                 browser.waitForPageLoad();
 
-                browser.window.href(function (href) {
-                    href.should.match(/dropdownlist=1/);
-                });
+                // jasmine style expect
+                expect(browser.window.href()).toContain('dropdownlist=1');
+                //});
             }));
         });
 
@@ -222,7 +231,8 @@ define(['browser', 'input', 'element', 'drop-down-list', 'dsl', 'should'], funct
             it('could be set to the correct option as per assigned value', dsl(function () {
                 dropdownlist(selector).option('2');
                 dropdownlist(selector).option(function (value) {
-                    value.should.equal('2');
+                    // jasmine style expect
+                    expect(value).toEqual('2');
                 });
             }));
 
@@ -235,9 +245,11 @@ define(['browser', 'input', 'element', 'drop-down-list', 'dsl', 'should'], funct
             it('could be set to the correct option as per assigned value', dsl(function () {
                 dropdownlist(selector).options('1', '4');
 
-                dropdownlist(selector).options(function (options) {
-                    options.should.have.length(2);
-                });
+                // jasmine style expect
+                expect(dropdownlist(selector).options()).toContain('1');
+
+                // jasmine style expect
+                expect(dropdownlist(selector).options()).toContain('4');
             }));
 
         });
@@ -247,7 +259,8 @@ define(['browser', 'input', 'element', 'drop-down-list', 'dsl', 'should'], funct
             it('could find the link by normal selector', dsl(function () {
                 element('#link').click();
                 element('body').text(function (text) {
-                    text.should.match(/this is a demo page !/m);
+                    // jasmine style expect
+                    expect(text).toContain('this is a demo page !');
                 });
             }));
 
@@ -257,15 +270,18 @@ define(['browser', 'input', 'element', 'drop-down-list', 'dsl', 'should'], funct
 
             it('could get count of matched elements', dsl(function () {
                 element('a').count(function (count) {
-                    count.should.equal(2);
+                    // jasmine style expect
+                    expect(count).toEqual(2);
                 });
 
                 element('a').count(function (count) {
-                    count.should.be.below(3);
+                    // jasmine style expect
+                    expect(count).toBeLessThan(3);
                 });
 
                 element('a').count(function (count) {
-                    count.should.be.above(1);
+                    // jasmine style expect
+                    expect(count).toBeGreaterThan(1);
                 });
             }));
 
@@ -273,8 +289,9 @@ define(['browser', 'input', 'element', 'drop-down-list', 'dsl', 'should'], funct
 
                 it('could get elements inside', dsl(function () {
                     element('a').query(function (selectedElements) {
-                        selectedElements.size().should.equal(2);
-                        selectedElements.eq(0).text().should.equal('Go to demo');
+                        // jasmine style expect
+                        expect(selectedElements.size()).toEqual(2);
+                        expect(selectedElements.eq(0).text()).toEqual('Go to demo');
                     });
                 }));
             });
@@ -284,9 +301,8 @@ define(['browser', 'input', 'element', 'drop-down-list', 'dsl', 'should'], funct
 
             describe('#navigateTo', function () {
                 it('could navigate to target path', dsl(function () {
-                    browser.window.path(function (path) {
-                        path.should.match(/^\/app\/index.html$/);
-                    });
+                    // jasmine style expect
+                    expect(browser.window.path()).toMatch(/^\/app\/index.html$/);
                 }));
             });
 
@@ -296,7 +312,8 @@ define(['browser', 'input', 'element', 'drop-down-list', 'dsl', 'should'], funct
 
                     it('could get the href of page', dsl(function (done) {
                         browser.window.href(function (href) {
-                            href.should.equal('http://localhost:9876/app/index.html');
+                            // jasmine style expect
+                            expect(href).toEqual('http://localhost:9876/app/index.html');
                         });
                     }));
 
@@ -307,7 +324,8 @@ define(['browser', 'input', 'element', 'drop-down-list', 'dsl', 'should'], funct
                     it('could get the path of page', dsl(function (done) {
                         browser.navigateTo('/app/index.html?#hello-world');
                         browser.window.path(function (path) {
-                            path.should.equal('/app/index.html');
+                            // jasmine style expect
+                            expect(path).toEqual('/app/index.html');
                         });
                     }));
 
@@ -318,7 +336,8 @@ define(['browser', 'input', 'element', 'drop-down-list', 'dsl', 'should'], funct
                     it('could get the hash of page', dsl(function (done) {
                         browser.navigateTo('/app/index.html?#hello-world');
                         browser.window.hash(function (hash) {
-                            hash.should.equal('#hello-world');
+                            // jasmine style expect
+                            expect(hash).toEqual('#hello-world');
                         });
                     }));
 
@@ -329,7 +348,8 @@ define(['browser', 'input', 'element', 'drop-down-list', 'dsl', 'should'], funct
                     it('could get the search of page', dsl(function (done) {
                         browser.navigateTo('/app/index.html?a=1');
                         browser.window.search(function (search) {
-                            search.should.equal('?a=1');
+                            // jasmine style expect
+                            expect(search).toEqual('?a=1');
                         });
                     }));
 
@@ -340,7 +360,8 @@ define(['browser', 'input', 'element', 'drop-down-list', 'dsl', 'should'], funct
                     it('could reload current page', dsl(function () {
                         browser.reload();
                         browser.window.path(function (path) {
-                            path.should.equal('/app/index.html');
+                            // jasmine style expect
+                            expect(path).toEqual('/app/index.html');
                         });
                     }));
 

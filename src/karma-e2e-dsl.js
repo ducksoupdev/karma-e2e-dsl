@@ -1,4 +1,4 @@
-(function (global, $, underscore, expectations, undefined) {
+(function (global, $, underscore, undefined) {
     'use strict';
 
     document.write('<iframe id="context" width="100%" height="500px" src="about:blank"></iframe>');
@@ -377,14 +377,13 @@
     global.dropdownlist = global.input = global.element = element;
 
     if (typeof global.chai !== 'undefined') {
-        // use chai assertions if available
+        // use chai expect and assert assertions if available
+        // for some reason chai should doesn't work with this dsl so use should.js instead
         global.expect = global.chai.expect;
-        global.should = global.chai.should;
         global.assert = global.chai.assert;
-    } else if (typeof global.expect === 'undefined') {
+    } else if (typeof global.expect === 'undefined' && typeof global.expectations !== 'undefined') {
         // use built-in jasmine style assertions if expect.js is not already loaded
-        global.expect = expectations;
+        global.expect = global.expectations;
     }
 
-})(this, jQuery, _, expectations);
-
+})(this, jQuery, _);
