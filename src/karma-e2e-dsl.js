@@ -386,5 +386,5 @@
         global.expect = expectations;
     }
 
-})(this, jQuery, _, expectations, undefined);
+})(this, jQuery, _, expectations);
 

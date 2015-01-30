@@ -4,7 +4,7 @@ module.exports = function (config) {
         basePath: './',
 
         // frameworks to use
-        frameworks: ['mocha'],
+        frameworks: ['requirejs', 'mocha'],
 
         proxies: {
             '/app/': 'http://localhost:8000/'
@@ -38,7 +38,7 @@ module.exports = function (config) {
         //browsers: ['Chrome', 'PhantomJS', 'Firefox'],
         browsers: ['PhantomJS'],
 
-        urlRoot: '/__karma/',
+        //urlRoot: '/__karma/',
 
         // If browser does not capture in given timeout [ms], kill it
         captureTimeout: 60000,

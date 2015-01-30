@@ -1,4 +1,4 @@
-(function(global, $, underscore, undefined) {
+define(['jquery', 'underscore'], function($, underscore) {
 
     var dslList = [];
 
@@ -8,16 +8,6 @@
             fn && fn.apply(this, [defer].concat([].slice.call(arguments)));
             return defer.promise();
         };
-    }
-
-    function expect(future) {
-        if(this && this.constructor == expect) {
-            dslList.push(deferred(function (defer, arg) {
-                defer.resolve(arg, true);
-            }));
-        } else {
-            return new expect(future);
-        }
     }
 
     function not() {
@@ -65,7 +55,7 @@
                 error += "expect " + format(actual) + formatNot(positiveOrNegative) + " to be " + format(expected);
                 break;
             case 'toBeDefined':
-                error += "expect " + format(actual) + formatNot(positiveOrNegative) + " to be defined."
+                error += "expect " + format(actual) + formatNot(positiveOrNegative) + " to be defined.";
                 break;
             case 'toContain':
                 error += "expect " + format(actual) + formatNot(positiveOrNegative) + " to contain " + format(expected);
@@ -172,8 +162,17 @@
         }
     };
 
+    function expect(future) {
+        if(this && this.constructor == expect) {
+            dslList.push(deferred(function (defer, arg) {
+                defer.resolve(arg, true);
+            }));
+        } else {
+            return new expect(future);
+        }
+    }
+
     expect.prototype = expectPrototype;
 
-    global.expectations = expect;
-
-})(this, jQuery, _, undefined);
+    return expect;
+});
